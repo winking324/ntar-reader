@@ -11,7 +11,7 @@
 
 namespace ntar {
 
-bool PcapReader::Read(const std::string pcap_file) {
+bool PcapReader::Read(const std::string &pcap_file) {
   std::ifstream ifs(pcap_file, std::ios::binary | std::ios::in);
   while (!ifs.eof()) {
     Section section;

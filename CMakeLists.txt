@@ -14,7 +14,6 @@ set(TARGET_SOURCES
         src/block_section_header.cpp
         src/block_simple_packet.cpp
         src/option.cpp
-        src/pcap_reader.cpp
         src/section.cpp
         )
 
@@ -30,15 +29,19 @@ set(TARGET_PUBLIC_HEADERS
         include/byte_io.h
         include/memory.h
         include/option.h
-        include/pcap_reader.h
         include/section.h
+        )
+
+set(TEST_SOURCES
+        test/main.cpp
+        test/pcap_reader.cpp
         )
 
 add_library(${PROJECT_NAME} STATIC
         ${TARGET_SOURCES}
         )
 
-add_executable(test test/main.cpp)
+add_executable(test ${TEST_SOURCES})
 target_link_libraries(test ntar)
 
 target_include_directories(${PROJECT_NAME}
