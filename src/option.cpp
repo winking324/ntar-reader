@@ -8,21 +8,6 @@
 
 namespace ntar {
 
-//  0                   1                   2                   3
-//  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-// |      Option Code              |         Option Length         |
-// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-// /                       Option Value                            /
-// /          /* variable length, aligned to 32 bits */            /
-// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-// /                                                               /
-// /                 . . . other options . . .                     /
-// /                                                               /
-// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-// |   Option Code == opt_endofopt  |  Option Length == 0          |
-// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-
 size_t Option::Read(const uint8_t *data, Endianness endianness) {
   size_t read_size = 0;
   if (endianness == Endianness::kBigEndian) {

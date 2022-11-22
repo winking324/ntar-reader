@@ -14,9 +14,13 @@
 
 namespace ntar {
 
+typedef std::vector<std::unique_ptr<Block>> BlockBuffer;
+
 class Section {
  public:
   size_t Read(std::istream *is);
+
+  const BlockBuffer &Blocks() const { return blocks_; }
 
  private:
   size_t ReadBlock(std::istream *is, Endianness endianness);
@@ -24,8 +28,7 @@ class Section {
   std::unique_ptr<Block> CreateBlock(uint32_t type, uint32_t length);
 
  private:
-  std::vector<std::unique_ptr<Option>> options_;
-  std::vector<std::unique_ptr<Block>> blocks_;
+  BlockBuffer blocks_;
 };
 
 }  // namespace ntar

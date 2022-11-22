@@ -6,7 +6,9 @@
 
 #include <cstdint>
 #include <istream>
+#include <map>
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "byte_io.h"
@@ -25,6 +27,18 @@ enum BlockType : uint32_t {
   kSectionHeader        = 0x0A0D0D0A,
 };
 
+static const std::map<uint32_t, std::string> kBlockTypeName = {
+    {kInterfaceDescription, "Interface Description Block"},
+    {kPacket, "Packet Block"},
+    {kSimplePacket, "Simple Packet Block"},
+    {kNameResolution, "Name Resolution Block"},
+    {kInterfaceStatistics, "Interface Statistics Block"},
+    {kEnhancedPacket, "Enhanced Packet Block"},
+    {kSectionHeader, "Section Header Block"},
+};
+
+typedef std::vector<std::unique_ptr<Option>> OptionBuffer;
+
 class Block : public NonCopyOrMovable {
  public:
   explicit Block(BlockType type, uint32_t length)
@@ -38,13 +52,15 @@ class Block : public NonCopyOrMovable {
 
   uint32_t Length() const { return length_; }
 
+  const OptionBuffer &Options() const { return options_; }
+
  protected:
   size_t ReadOptions(const uint8_t *data, Endianness endianness);
 
  protected:
-  uint32_t type_;
-  uint32_t length_;
-  std::vector<std::unique_ptr<Option>> options_;
+  uint32_t type_   = 0;
+  uint32_t length_ = 0;
+  OptionBuffer options_;
 };
 
 template <typename T>
