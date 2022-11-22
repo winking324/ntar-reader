@@ -10,6 +10,13 @@ namespace ntar {
 
 class BlockSectionHeader : public Block {
  public:
+  enum OptionType {
+    kHardware        = 2,
+    kOs              = 3,
+    kUserApplication = 4,
+  };
+
+ public:
   explicit BlockSectionHeader(uint32_t length)
       : Block(BlockType::kSectionHeader, length) {}
 

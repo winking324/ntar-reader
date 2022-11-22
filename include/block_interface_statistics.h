@@ -10,6 +10,17 @@ namespace ntar {
 
 class BlockInterfaceStatistics : public Block {
  public:
+  enum OptionType {
+    kStartTime    = 2,
+    kEndTime      = 3,
+    kIfRecv       = 4,
+    kIfDrop       = 5,
+    kFilterAccept = 6,
+    kOsDrop       = 7,
+    kUserDeliver  = 8,
+  };
+
+ public:
   explicit BlockInterfaceStatistics(uint32_t length)
       : Block(BlockType::kInterfaceStatistics, length) {}
 

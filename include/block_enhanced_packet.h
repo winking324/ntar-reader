@@ -10,6 +10,13 @@ namespace ntar {
 
 class BlockEnhancedPacket : public Block {
  public:
+  enum OptionType {
+    kFlags     = 2,
+    kHash      = 3,
+    kDropCount = 4,
+  };
+
+ public:
   explicit BlockEnhancedPacket(uint32_t length)
       : Block(BlockType::kEnhancedPacket, length) {}
 

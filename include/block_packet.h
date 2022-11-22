@@ -12,6 +12,12 @@ namespace ntar {
 
 class BlockPacket : public Block {
  public:
+  enum OptionType {
+    kFlags = 2,
+    kHash  = 3,
+  };
+
+ public:
   explicit BlockPacket(uint32_t length) : Block(BlockType::kPacket, length) {}
 
   size_t Read(const uint8_t *data, Endianness endianness) override;

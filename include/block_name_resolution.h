@@ -13,8 +13,8 @@ namespace ntar {
 
 enum RecordType {
   kEndOfRecord = 0,
-  kIp4Record   = 1,
-  kIp6Record   = 2,
+  kIpv4Record  = 1,
+  kIpv6Record  = 2,
 };
 
 class Record : public Option {
@@ -23,6 +23,13 @@ class Record : public Option {
 };
 
 class BlockNameResolution : public Block {
+ public:
+  enum OptionType {
+    kDnsName        = 2,
+    kDnsIpv4Address = 3,
+    kDnsIpv6Address = 4,
+  };
+
  public:
   explicit BlockNameResolution(uint32_t length)
       : Block(BlockType::kNameResolution, length) {}

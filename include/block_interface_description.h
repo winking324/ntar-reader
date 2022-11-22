@@ -10,6 +10,23 @@ namespace ntar {
 
 class BlockInterfaceDescription : public Block {
  public:
+  enum OptionType {
+    kName                     = 2,
+    kDescription              = 3,
+    kIpv4Address              = 4,
+    kIpv6Address              = 5,
+    kMacAddress               = 6,
+    kEuiAddress               = 7,
+    kSpeed                    = 8,
+    kTsResolution             = 9,
+    kTimeZone                 = 10,
+    kFilter                   = 11,
+    kOs                       = 12,
+    kFrameCheckSequenceLength = 13,
+    kTsOffset                 = 14,
+  };
+
+ public:
   explicit BlockInterfaceDescription(uint32_t length)
       : Block(BlockType::kInterfaceDescription, length) {}
 
