@@ -34,7 +34,7 @@ size_t Section::Read(std::istream *is) {
     return 0;
   }
 
-  is->seekg(0);
+  is->seekg(-static_cast<int>(sizeof(uint32_t) * 3), std::ios::cur);
   size_t block_size;
   size_t section_size = 0;
   do {
@@ -62,6 +62,11 @@ size_t Section::ReadBlock(std::istream *is, Endianness endianness) {
     is->read(buffer, sizeof(uint32_t));
     length = ByteReader<uint32_t>::ReadLittleEndian(
         reinterpret_cast<uint8_t *>(buffer));
+  }
+
+  if (type == BlockType::kSectionHeader && !blocks_.empty()) {
+    is->seekg(-static_cast<int>(sizeof(uint32_t) * 2), std::ios::cur);
+    return 0;
   }
 
   std::vector<uint8_t> data;

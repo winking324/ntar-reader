@@ -13,12 +13,8 @@ namespace ntar {
 constexpr uint32_t kBlockSectionHeaderMinLength = sizeof(uint32_t) * 7;
 
 size_t BlockSectionHeader::Read(const uint8_t *data) {
-  size_t read_size = 0;
+  size_t read_size = sizeof(uint32_t);  // ignore uint32_t Byte-Order Magic
   if (endianness_ == Endianness::kBigEndian) {
-    uint32_t byte_order = ByteReader<uint32_t>::ReadBigEndian(data + read_size);
-    read_size += sizeof(uint32_t);
-    assert(byte_order == static_cast<uint32_t>(endianness_));
-
     major_version_ = ByteReader<uint16_t>::ReadBigEndian(data + read_size);
     read_size += sizeof(uint16_t);
     minor_version_ = ByteReader<uint16_t>::ReadBigEndian(data + read_size);
@@ -26,11 +22,6 @@ size_t BlockSectionHeader::Read(const uint8_t *data) {
     section_length_ = ByteReader<uint64_t>::ReadBigEndian(data + read_size);
     read_size += sizeof(uint64_t);
   } else {
-    uint32_t byte_order =
-        ByteReader<uint32_t>::ReadLittleEndian(data + read_size);
-    read_size += sizeof(uint32_t);
-    assert(byte_order == static_cast<uint32_t>(endianness_));
-
     major_version_ = ByteReader<uint16_t>::ReadLittleEndian(data + read_size);
     read_size += sizeof(uint16_t);
     minor_version_ = ByteReader<uint16_t>::ReadLittleEndian(data + read_size);
