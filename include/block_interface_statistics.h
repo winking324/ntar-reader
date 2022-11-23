@@ -42,10 +42,12 @@ class BlockInterfaceStatistics : public Block {
   };
 
  public:
-  explicit BlockInterfaceStatistics(uint32_t length)
-      : Block(BlockType::kInterfaceStatistics, length) {}
+  explicit BlockInterfaceStatistics(uint32_t length, Endianness endianness)
+      : Block(BlockType::kInterfaceStatistics, length, endianness) {}
 
-  size_t Read(const uint8_t *data, Endianness endianness) override;
+  size_t Read(const uint8_t *data) override;
+
+  std::string Output() override;
 
   uint32_t InterfaceId() const { return id_; }
 

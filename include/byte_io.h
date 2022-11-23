@@ -37,7 +37,7 @@
 
 namespace ntar {
 
-enum Endianness : uint32_t {
+enum Endianness {
   kBigEndian    = 0x4D3C2B1A,
   kLittleEndian = 0x1A2B3C4D,
 };

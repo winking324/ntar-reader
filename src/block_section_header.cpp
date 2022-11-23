@@ -4,18 +4,20 @@
 
 #include "block_section_header.h"
 
+#include <sstream>
+
 #include "byte_io.h"
 
 namespace ntar {
 
 constexpr uint32_t kBlockSectionHeaderMinLength = sizeof(uint32_t) * 7;
 
-size_t BlockSectionHeader::Read(const uint8_t *data, Endianness endianness) {
+size_t BlockSectionHeader::Read(const uint8_t *data) {
   size_t read_size = 0;
-  if (endianness == Endianness::kBigEndian) {
+  if (endianness_ == Endianness::kBigEndian) {
     uint32_t byte_order = ByteReader<uint32_t>::ReadBigEndian(data + read_size);
     read_size += sizeof(uint32_t);
-    assert(byte_order == static_cast<uint32_t>(endianness));
+    assert(byte_order == static_cast<uint32_t>(endianness_));
 
     major_version_ = ByteReader<uint16_t>::ReadBigEndian(data + read_size);
     read_size += sizeof(uint16_t);
@@ -27,7 +29,7 @@ size_t BlockSectionHeader::Read(const uint8_t *data, Endianness endianness) {
     uint32_t byte_order =
         ByteReader<uint32_t>::ReadLittleEndian(data + read_size);
     read_size += sizeof(uint32_t);
-    assert(byte_order == static_cast<uint32_t>(endianness));
+    assert(byte_order == static_cast<uint32_t>(endianness_));
 
     major_version_ = ByteReader<uint16_t>::ReadLittleEndian(data + read_size);
     read_size += sizeof(uint16_t);
@@ -38,12 +40,46 @@ size_t BlockSectionHeader::Read(const uint8_t *data, Endianness endianness) {
   }
 
   if (Length() > kBlockSectionHeaderMinLength) {
-    read_size += ReadOptions(data + read_size, endianness);
+    read_size += ReadOptions(data + read_size);
   }
 
   read_size += sizeof(uint32_t);
   assert(Length() == read_size + 8);
   return read_size;
+}
+
+std::string BlockSectionHeader::Output() {
+  static const std::map<uint16_t, std::pair<std::string, kOutputPtr>>
+      kOptionTypeName = {
+          {kComment, {"Comment", &Option::OutputStringData}},
+          {kHardware, {"Hardware", &Option::OutputStringData}},
+          {kOs, {"OS", &Option::OutputStringData}},
+          {kUserApplication, {"User Application", &Option::OutputStringData}},
+      };
+
+  std::ostringstream oss;
+  oss << "[Block]Section Header: \n"
+      << "\tVersion: " << major_version_ << "." << minor_version_ << "\n";
+
+  if (!options_.empty()) {
+    oss << "\tOptions: \n";
+    for (auto &opt : options_) {
+      oss << "\t\t[" << opt->Code() << "]";
+      auto it = kOptionTypeName.find(opt->Code());
+      if (it == kOptionTypeName.end()) {
+        oss << ": Unsupported\n";
+        continue;
+      }
+
+      oss << it->second.first;
+      if (it->second.second != nullptr) {
+        oss << ": " << (opt.get()->*(it->second.second))();
+      }
+      oss << "\n";
+    }
+  }
+
+  return oss.str();
 }
 
 }  // namespace ntar

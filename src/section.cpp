@@ -71,9 +71,9 @@ size_t Section::ReadBlock(std::istream *is, Endianness endianness) {
     return 0;
   }
 
-  std::unique_ptr<Block> block = CreateBlock(type, length);
+  std::unique_ptr<Block> block = CreateBlock(type, length, endianness);
   if (block) {
-    size_t read_size = block->Read(data.data(), endianness);
+    size_t read_size = block->Read(data.data());
     if (read_size == 0) {
       // TODO(winking324): read error here
     }
@@ -82,7 +82,8 @@ size_t Section::ReadBlock(std::istream *is, Endianness endianness) {
   return length;
 }
 
-std::unique_ptr<Block> Section::CreateBlock(uint32_t type, uint32_t length) {
+std::unique_ptr<Block> Section::CreateBlock(uint32_t type, uint32_t length,
+                                            Endianness endianness) {
   const static std::map<uint32_t, BlockCtreatorPtr> kCreator = {
       {BlockType::kInterfaceDescription,
        BlockCreator<BlockInterfaceDescription>::New},
@@ -100,7 +101,7 @@ std::unique_ptr<Block> Section::CreateBlock(uint32_t type, uint32_t length) {
     return nullptr;
   }
 
-  return std::unique_ptr<Block>(it->second(length));
+  return std::unique_ptr<Block>(it->second(length, endianness));
 }
 
 }  // namespace ntar

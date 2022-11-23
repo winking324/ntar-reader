@@ -5,6 +5,7 @@
 #pragma once  // NOLINT(build/header_guard)
 
 #include <cstdint>
+#include <string>
 #include <vector>
 
 #include "byte_io.h"
@@ -28,23 +29,41 @@
 
 namespace ntar {
 
-enum OptionCode : uint16_t {
-  kEndOfOption = 0,
-  kComment     = 1,
-};
-
 class Option : public NonCopyOrMovable {
  public:
-  size_t Read(const uint8_t *data, Endianness endianness);
+  explicit Option(Endianness endianness) : endianness_(endianness) {}
+
+  size_t Read(const uint8_t *data);
 
   uint16_t Code() const { return code_; }
+
   uint16_t Length() const { return length_; }
+
   const std::vector<uint8_t> &Data() const { return data_; }
 
+  std::string OutputStringData();
+
+  std::string OutputUint8Data();
+
+  std::string OutputUint16Data();
+
+  std::string OutputUint32Data();
+
+  std::string OutputUint64Data();
+
+  std::string OutputIpv4Data();
+
+  std::string OutputIpv6Data();
+
+  std::string OutputHexData();
+
  protected:
-  uint16_t code_   = 0;
-  uint16_t length_ = 0;
+  uint16_t code_         = 0;
+  uint16_t length_       = 0;
+  Endianness endianness_ = Endianness::kLittleEndian;
   std::vector<uint8_t> data_;
 };
+
+typedef std::string (Option::*kOutputPtr)();
 
 }  // namespace ntar

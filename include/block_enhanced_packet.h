@@ -47,10 +47,12 @@ class BlockEnhancedPacket : public Block {
   };
 
  public:
-  explicit BlockEnhancedPacket(uint32_t length)
-      : Block(BlockType::kEnhancedPacket, length) {}
+  explicit BlockEnhancedPacket(uint32_t length, Endianness endianness)
+      : Block(BlockType::kEnhancedPacket, length, endianness) {}
 
-  size_t Read(const uint8_t *data, Endianness endianness) override;
+  size_t Read(const uint8_t *data) override;
+
+  std::string Output() override;
 
   uint32_t InterfaceId() const { return id_; }
 

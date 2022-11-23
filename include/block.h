@@ -17,7 +17,7 @@
 
 namespace ntar {
 
-enum BlockType : uint32_t {
+enum BlockType {
   kInterfaceDescription = 0x00000001,
   kPacket               = 0x00000002,
   kSimplePacket         = 0x00000003,
@@ -41,12 +41,20 @@ typedef std::vector<std::unique_ptr<Option>> OptionBuffer;
 
 class Block : public NonCopyOrMovable {
  public:
-  explicit Block(BlockType type, uint32_t length)
-      : type_(type), length_(length) {}
+  enum OptionType {
+    kEndOfOption = 0,
+    kComment     = 1,
+  };
+
+ public:
+  explicit Block(BlockType type, uint32_t length, Endianness endianness)
+      : type_(type), length_(length), endianness_(endianness) {}
 
   virtual ~Block() = default;
 
-  virtual size_t Read(const uint8_t *data, Endianness endianness) = 0;
+  virtual size_t Read(const uint8_t *data) = 0;
+
+  virtual std::string Output() = 0;
 
   uint32_t Type() const { return type_; }
 
@@ -55,18 +63,19 @@ class Block : public NonCopyOrMovable {
   const OptionBuffer &Options() const { return options_; }
 
  protected:
-  size_t ReadOptions(const uint8_t *data, Endianness endianness);
+  size_t ReadOptions(const uint8_t *data);
 
  protected:
-  uint32_t type_   = 0;
-  uint32_t length_ = 0;
+  uint32_t type_         = 0;
+  uint32_t length_       = 0;
+  Endianness endianness_ = kLittleEndian;
   OptionBuffer options_;
 };
 
 template <typename T>
 struct BlockCreator {
-  static Block *New(uint32_t length) { return (new T(length)); }
+  static Block *New(uint32_t l, Endianness e) { return (new T(l, e)); }
 };
-typedef Block *(*BlockCtreatorPtr)(uint32_t);
+typedef Block *(*BlockCtreatorPtr)(uint32_t, Endianness);
 
 }  // namespace ntar

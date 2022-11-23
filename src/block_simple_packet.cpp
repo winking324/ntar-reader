@@ -4,13 +4,15 @@
 
 #include "block_simple_packet.h"
 
+#include <sstream>
+
 namespace ntar {
 
 constexpr uint32_t kBlockSimplePacketMinLength = sizeof(uint32_t) * 4;
 
-size_t BlockSimplePacket::Read(const uint8_t *data, Endianness endianness) {
+size_t BlockSimplePacket::Read(const uint8_t *data) {
   size_t read_size = 0;
-  if (endianness == Endianness::kBigEndian) {
+  if (endianness_ == Endianness::kBigEndian) {
     packet_length_ = ByteReader<uint32_t>::ReadBigEndian(data + read_size);
     read_size += sizeof(uint32_t);
   } else {
@@ -32,6 +34,13 @@ size_t BlockSimplePacket::Read(const uint8_t *data, Endianness endianness) {
   read_size += sizeof(uint32_t);
   assert(Length() == read_size + 8);
   return read_size;
+}
+
+std::string BlockSimplePacket::Output() {
+  std::ostringstream oss;
+  oss << "[Block]Simple Packet: \n"
+      << "\tPacketLength: " << packet_length_ << "\n";
+  return oss.str();
 }
 
 }  // namespace ntar

@@ -16,7 +16,7 @@ class PcapReader {
   bool Read(const std::string &pcap_file);
 
  private:
-  std::vector<std::unique_ptr<Block>> blocks_;
+
 };
 
 }  // namespace ntar

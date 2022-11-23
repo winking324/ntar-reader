@@ -46,10 +46,12 @@ class BlockInterfaceDescription : public Block {
   };
 
  public:
-  explicit BlockInterfaceDescription(uint32_t length)
-      : Block(BlockType::kInterfaceDescription, length) {}
+  explicit BlockInterfaceDescription(uint32_t length, Endianness endianness)
+      : Block(BlockType::kInterfaceDescription, length, endianness) {}
 
-  size_t Read(const uint8_t *data, Endianness endianness) override;
+  size_t Read(const uint8_t *data) override;
+
+  std::string Output() override;
 
   uint16_t LinkType() const { return link_type_; }
 

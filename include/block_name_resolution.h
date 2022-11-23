@@ -45,6 +45,8 @@ enum RecordType {
 
 class Record : public Option {
  public:
+  explicit Record(Endianness endianness) : Option(endianness) {}
+
   uint16_t Type() const { return code_; }
 };
 
@@ -59,15 +61,17 @@ class BlockNameResolution : public Block {
   };
 
  public:
-  explicit BlockNameResolution(uint32_t length)
-      : Block(BlockType::kNameResolution, length) {}
+  explicit BlockNameResolution(uint32_t length, Endianness endianness)
+      : Block(BlockType::kNameResolution, length, endianness) {}
 
-  size_t Read(const uint8_t *data, Endianness endianness) override;
+  size_t Read(const uint8_t *data) override;
+
+  std::string Output() override;
 
   const RecordBuffer &Records() const { return records_; }
 
  private:
-  size_t ReadRecords(const uint8_t *data, Endianness endianness);
+  size_t ReadRecords(const uint8_t *data);
 
  private:
   RecordBuffer records_;

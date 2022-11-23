@@ -5,6 +5,7 @@
 #include "pcap_reader.h"
 
 #include <fstream>
+#include <iostream>
 #include <memory>
 
 #include "section.h"
@@ -18,6 +19,12 @@ bool PcapReader::Read(const std::string &pcap_file) {
     auto read_size = section.Read(&ifs);
     if (read_size == 0) {
       break;
+    }
+
+    auto &blocks = section.Blocks();
+    std::cout << "Section total block count: " << blocks.size() << std::endl;
+    for (auto &block : blocks) {
+      std::cout << block->Output();
     }
   }
   return true;

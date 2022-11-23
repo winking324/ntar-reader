@@ -1,5 +1,5 @@
-// Copyright (c) winking324
-// Refer: https://www.winpcap.org/ntar/draft/PCAP-DumpFileFormat.html
+// Copyright (c) 2014-2022 Agora.io, Inc.
+// Refer: https://wiki.wireshark.org/Development/PcapNg
 //
 
 #include "pcap_reader.h"

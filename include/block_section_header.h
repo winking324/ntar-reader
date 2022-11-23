@@ -40,10 +40,12 @@ class BlockSectionHeader : public Block {
   };
 
  public:
-  explicit BlockSectionHeader(uint32_t length)
-      : Block(BlockType::kSectionHeader, length) {}
+  explicit BlockSectionHeader(uint32_t length, Endianness endianness)
+      : Block(BlockType::kSectionHeader, length, endianness) {}
 
-  size_t Read(const uint8_t *data, Endianness endianness) override;
+  size_t Read(const uint8_t *data) override;
+
+  std::string Output() override;
 
   uint16_t MajorVersion() const { return major_version_; }
 

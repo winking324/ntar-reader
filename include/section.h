@@ -25,7 +25,8 @@ class Section {
  private:
   size_t ReadBlock(std::istream *is, Endianness endianness);
 
-  std::unique_ptr<Block> CreateBlock(uint32_t type, uint32_t length);
+  std::unique_ptr<Block> CreateBlock(uint32_t type, uint32_t length,
+                                     Endianness endianness);
 
  private:
   BlockBuffer blocks_;

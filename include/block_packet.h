@@ -48,9 +48,12 @@ class BlockPacket : public Block {
   };
 
  public:
-  explicit BlockPacket(uint32_t length) : Block(BlockType::kPacket, length) {}
+  explicit BlockPacket(uint32_t length, Endianness endianness)
+      : Block(BlockType::kPacket, length, endianness) {}
 
-  size_t Read(const uint8_t *data, Endianness endianness) override;
+  size_t Read(const uint8_t *data) override;
+
+  std::string Output() override;
 
   uint16_t InterfaceId() const { return id_; }
 
