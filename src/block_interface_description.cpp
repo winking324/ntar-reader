@@ -6,13 +6,15 @@
 
 #include <sstream>
 
+#include "ntar_meta.h"
+
 namespace ntar {
 
 constexpr uint32_t kBlockInterfaceDescriptionMinLength = sizeof(uint32_t) * 5;
 
 size_t BlockInterfaceDescription::Read(const uint8_t *data) {
   size_t read_size = 0;
-  if (endianness_ == Endianness::kBigEndian) {
+  if (GlobalNtarMeta::Instance()->IsBigEndian()) {
     link_type_ = ByteReader<uint16_t>::ReadBigEndian(data + read_size);
     read_size += sizeof(uint16_t);
 
@@ -39,7 +41,7 @@ size_t BlockInterfaceDescription::Read(const uint8_t *data) {
   }
 
   read_size += sizeof(uint32_t);
-  assert(Length() == read_size + 8);
+  assert(GlobalNtarMeta::Instance()->PaddedLength(Length()) == read_size + 8);
   return read_size;
 }
 

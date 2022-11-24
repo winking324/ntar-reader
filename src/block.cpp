@@ -9,7 +9,7 @@ namespace ntar {
 size_t Block::ReadOptions(const uint8_t *data) {
   size_t read_size = 0;
   while (true) {
-    std::unique_ptr<Option> opt{new Option(endianness_)};
+    std::unique_ptr<Option> opt{new Option()};
     read_size += opt->Read(data + read_size);
     if (opt->Length() == 0 && opt->Code() == kEndOfOption) {
       // Do not add the end option to options

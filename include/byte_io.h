@@ -38,6 +38,7 @@
 namespace ntar {
 
 enum Endianness {
+  kUnknown      = 0,
   kBigEndian    = 0x4D3C2B1A,
   kLittleEndian = 0x1A2B3C4D,
 };

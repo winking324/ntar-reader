@@ -18,4 +18,16 @@ class NonCopyOrMovable {
   NonCopyOrMovable &operator=(NonCopyOrMovable &&)      = delete;
 };
 
+template <class T>
+class Singleton : private NonCopyOrMovable {
+ public:
+  static T *Instance() {
+    static T inst;
+    return &inst;
+  }
+
+  Singleton()  = delete;
+  ~Singleton() = delete;
+};
+
 }  // namespace ntar

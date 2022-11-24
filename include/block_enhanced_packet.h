@@ -47,8 +47,8 @@ class BlockEnhancedPacket : public Block {
   };
 
  public:
-  explicit BlockEnhancedPacket(uint32_t length, Endianness endianness)
-      : Block(BlockType::kEnhancedPacket, length, endianness) {}
+  explicit BlockEnhancedPacket(uint32_t length)
+      : Block(BlockType::kEnhancedPacket, length) {}
 
   size_t Read(const uint8_t *data) override;
 

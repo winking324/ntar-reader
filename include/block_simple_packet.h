@@ -30,8 +30,8 @@ namespace ntar {
 
 class BlockSimplePacket : public Block {
  public:
-  explicit BlockSimplePacket(uint32_t length, Endianness endianness)
-      : Block(BlockType::kSimplePacket, length, endianness) {}
+  explicit BlockSimplePacket(uint32_t length)
+      : Block(BlockType::kSimplePacket, length) {}
 
   size_t Read(const uint8_t *data) override;
 

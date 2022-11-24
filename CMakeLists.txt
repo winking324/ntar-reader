@@ -13,6 +13,7 @@ set(TARGET_SOURCES
         src/block_packet.cpp
         src/block_section_header.cpp
         src/block_simple_packet.cpp
+        src/ntar_meta.cpp
         src/option.cpp
         src/section.cpp
         )
@@ -28,6 +29,7 @@ set(TARGET_PUBLIC_HEADERS
         include/block_simple_packet.h
         include/byte_io.h
         include/memory.h
+        include/ntar_meta.h
         include/option.h
         include/section.h
         )

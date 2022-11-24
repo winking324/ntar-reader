@@ -6,6 +6,8 @@
 
 #include <sstream>
 
+#include "ntar_meta.h"
+
 namespace ntar {
 
 const uint32_t kBlockEnhancedPacketMinLength = sizeof(uint32_t) * 8;
@@ -13,7 +15,7 @@ const uint32_t kBlockEnhancedPacketMinLength = sizeof(uint32_t) * 8;
 size_t BlockEnhancedPacket::Read(const uint8_t *data) {
   size_t read_size = 0;
   uint64_t ts_high, ts_low;
-  if (endianness_ == Endianness::kBigEndian) {
+  if (GlobalNtarMeta::Instance()->IsBigEndian()) {
     id_ = ByteReader<uint32_t>::ReadBigEndian(data + read_size);
     read_size += sizeof(uint32_t);
     ts_high = ByteReader<uint32_t>::ReadBigEndian(data + read_size);
@@ -39,9 +41,12 @@ size_t BlockEnhancedPacket::Read(const uint8_t *data) {
 
   ts_ = ts_high << 32 | ts_low;
 
-  uint32_t padded_length = captured_length_ % 4 == 0
-                               ? captured_length_
-                               : (captured_length_ / 4 + 1) * 4;
+  uint32_t padded_length =
+      GlobalNtarMeta::Instance()->PaddedLength(captured_length_);
+  if (padded_length > Length()) {
+    return 0;
+  }
+
   if (captured_length_ > 0) {
     data_.resize(captured_length_);
     std::copy(data + read_size, data + read_size + captured_length_,
@@ -54,7 +59,7 @@ size_t BlockEnhancedPacket::Read(const uint8_t *data) {
   }
 
   read_size += sizeof(uint32_t);
-  assert(Length() == read_size + 8);
+  assert(GlobalNtarMeta::Instance()->PaddedLength(Length()) == read_size + 8);
   return read_size;
 }
 

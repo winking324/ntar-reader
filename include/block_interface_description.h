@@ -46,8 +46,8 @@ class BlockInterfaceDescription : public Block {
   };
 
  public:
-  explicit BlockInterfaceDescription(uint32_t length, Endianness endianness)
-      : Block(BlockType::kInterfaceDescription, length, endianness) {}
+  explicit BlockInterfaceDescription(uint32_t length)
+      : Block(BlockType::kInterfaceDescription, length) {}
 
   size_t Read(const uint8_t *data) override;
 

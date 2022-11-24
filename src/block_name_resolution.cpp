@@ -6,6 +6,8 @@
 
 #include <sstream>
 
+#include "ntar_meta.h"
+
 namespace ntar {
 
 constexpr uint32_t kBlockNameResolutionMinLength = sizeof(uint32_t) * 3;
@@ -21,14 +23,14 @@ size_t BlockNameResolution::Read(const uint8_t *data) {
   }
 
   read_size += sizeof(uint32_t);
-  assert(Length() == read_size + 8);
+  assert(GlobalNtarMeta::Instance()->PaddedLength(Length()) == read_size + 8);
   return read_size;
 }
 
 size_t BlockNameResolution::ReadRecords(const uint8_t *data) {
   size_t read_size = 0;
   while (true) {
-    std::unique_ptr<Record> record{new Record(endianness_)};
+    std::unique_ptr<Record> record{new Record()};
     read_size += record->Read(data + read_size);
     if (record->Length() == 0 && record->Type() == RecordType::kEndOfRecord) {
       // Do not add the end record to records

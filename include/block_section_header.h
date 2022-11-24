@@ -40,8 +40,8 @@ class BlockSectionHeader : public Block {
   };
 
  public:
-  explicit BlockSectionHeader(uint32_t length, Endianness endianness)
-      : Block(BlockType::kSectionHeader, length, endianness) {}
+  explicit BlockSectionHeader(uint32_t length)
+      : Block(BlockType::kSectionHeader, length) {}
 
   size_t Read(const uint8_t *data) override;
 

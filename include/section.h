@@ -9,7 +9,6 @@
 #include <memory>
 
 #include "block.h"
-#include "byte_io.h"
 #include "option.h"
 
 namespace ntar {
@@ -20,13 +19,14 @@ class Section {
  public:
   size_t Read(std::istream *is);
 
+  std::string Output();
+
   const BlockBuffer &Blocks() const { return blocks_; }
 
  private:
-  size_t ReadBlock(std::istream *is, Endianness endianness);
+  size_t ReadBlock(std::istream *is);
 
-  std::unique_ptr<Block> CreateBlock(uint32_t type, uint32_t length,
-                                     Endianness endianness);
+  std::unique_ptr<Block> CreateBlock(uint32_t type, uint32_t length);
 
  private:
   BlockBuffer blocks_;

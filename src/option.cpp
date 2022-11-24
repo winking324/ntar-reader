@@ -6,11 +6,13 @@
 
 #include <cassert>
 
+#include "ntar_meta.h"
+
 namespace ntar {
 
 size_t Option::Read(const uint8_t *data) {
   size_t read_size = 0;
-  if (endianness_ == Endianness::kBigEndian) {
+  if (GlobalNtarMeta::Instance()->IsBigEndian()) {
     code_ = ByteReader<uint16_t>::ReadBigEndian(data + read_size);
     read_size += sizeof(uint16_t);
     length_ = ByteReader<uint16_t>::ReadBigEndian(data + read_size);
@@ -24,8 +26,7 @@ size_t Option::Read(const uint8_t *data) {
 
   data_.resize(length_);
   std::copy(data + read_size, data + read_size + length_, data_.begin());
-
-  uint32_t padded_length = length_ % 4 == 0 ? length_ : (length_ / 4 + 1) * 4;
+  uint32_t padded_length = GlobalNtarMeta::Instance()->PaddedLength(length_);
   read_size += padded_length;
   return read_size;
 }
@@ -43,7 +44,7 @@ std::string Option::OutputUint8Data() {
 std::string Option::OutputUint16Data() {
   assert(data_.size() == sizeof(uint16_t));
   uint16_t data;
-  if (endianness_ == Endianness::kBigEndian) {
+  if (GlobalNtarMeta::Instance()->IsBigEndian()) {
     data = ByteReader<uint16_t>::ReadBigEndian(data_.data());
   } else {
     data = ByteReader<uint16_t>::ReadLittleEndian(data_.data());
@@ -54,7 +55,7 @@ std::string Option::OutputUint16Data() {
 std::string Option::OutputUint32Data() {
   assert(data_.size() == sizeof(uint32_t));
   uint32_t data;
-  if (endianness_ == Endianness::kBigEndian) {
+  if (GlobalNtarMeta::Instance()->IsBigEndian()) {
     data = ByteReader<uint32_t>::ReadBigEndian(data_.data());
   } else {
     data = ByteReader<uint32_t>::ReadLittleEndian(data_.data());
@@ -65,7 +66,7 @@ std::string Option::OutputUint32Data() {
 std::string Option::OutputUint64Data() {
   assert(data_.size() == sizeof(uint64_t));
   uint64_t data_high, data_low;
-  if (endianness_ == Endianness::kBigEndian) {
+  if (GlobalNtarMeta::Instance()->IsBigEndian()) {
     data_high = ByteReader<uint32_t>::ReadBigEndian(data_.data());
     data_low =
         ByteReader<uint32_t>::ReadBigEndian(data_.data() + sizeof(uint32_t));

@@ -29,10 +29,8 @@
 
 namespace ntar {
 
-class Option : public NonCopyOrMovable {
+class Option : private NonCopyOrMovable {
  public:
-  explicit Option(Endianness endianness) : endianness_(endianness) {}
-
   size_t Read(const uint8_t *data);
 
   uint16_t Code() const { return code_; }
@@ -58,9 +56,8 @@ class Option : public NonCopyOrMovable {
   std::string OutputHexData();
 
  protected:
-  uint16_t code_         = 0;
-  uint16_t length_       = 0;
-  Endianness endianness_ = Endianness::kLittleEndian;
+  uint16_t code_   = 0;
+  uint16_t length_ = 0;
   std::vector<uint8_t> data_;
 };
 

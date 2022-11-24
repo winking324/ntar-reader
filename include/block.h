@@ -39,7 +39,7 @@ static const std::map<uint32_t, std::string> kBlockTypeName = {
 
 typedef std::vector<std::unique_ptr<Option>> OptionBuffer;
 
-class Block : public NonCopyOrMovable {
+class Block : private NonCopyOrMovable {
  public:
   enum OptionType {
     kEndOfOption = 0,
@@ -47,8 +47,8 @@ class Block : public NonCopyOrMovable {
   };
 
  public:
-  explicit Block(BlockType type, uint32_t length, Endianness endianness)
-      : type_(type), length_(length), endianness_(endianness) {}
+  explicit Block(BlockType type, uint32_t length)
+      : type_(type), length_(length) {}
 
   virtual ~Block() = default;
 
@@ -66,16 +66,15 @@ class Block : public NonCopyOrMovable {
   size_t ReadOptions(const uint8_t *data);
 
  protected:
-  uint32_t type_         = 0;
-  uint32_t length_       = 0;
-  Endianness endianness_ = kLittleEndian;
+  uint32_t type_   = 0;
+  uint32_t length_ = 0;
   OptionBuffer options_;
 };
 
 template <typename T>
 struct BlockCreator {
-  static Block *New(uint32_t l, Endianness e) { return (new T(l, e)); }
+  static Block *New(uint32_t l) { return (new T(l)); }
 };
-typedef Block *(*BlockCtreatorPtr)(uint32_t, Endianness);
+typedef Block *(*BlockCtreatorPtr)(uint32_t);
 
 }  // namespace ntar
