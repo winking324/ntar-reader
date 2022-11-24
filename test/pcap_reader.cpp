@@ -15,9 +15,12 @@ namespace ntar {
 
 bool PcapReader::Read(const std::string &pcap_file) {
   std::ifstream ifs(pcap_file, std::ios::binary | std::ios::in);
-  GlobalNtarMeta::Instance()->Reset();
+  if (!ifs.is_open()) {
+    return false;
+  }
 
-  size_t read_size = 0;
+  GlobalNtarMeta::Instance()->Reset();
+  size_t read_size;
   do {
     Section section;
     read_size = section.Read(&ifs);

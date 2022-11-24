@@ -43,8 +43,8 @@ add_library(${PROJECT_NAME} STATIC
         ${TARGET_SOURCES}
         )
 
-add_executable(test ${TEST_SOURCES})
-target_link_libraries(test ntar)
+add_executable(ntar-test ${TEST_SOURCES})
+target_link_libraries(ntar-test ntar)
 
 target_include_directories(${PROJECT_NAME}
         PUBLIC ${PROJECT_SOURCE_DIR}/include
