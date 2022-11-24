@@ -24,6 +24,9 @@ enum BlockType {
   kNameResolution       = 0x00000004,
   kInterfaceStatistics  = 0x00000005,
   kEnhancedPacket       = 0x00000006,
+  kDecryptionSecrets    = 0x0000000A,
+  kCustomCopiable       = 0x00000BAD,
+  kCustom               = 0x40000BAD,
   kSectionHeader        = 0x0A0D0D0A,
 };
 
@@ -34,6 +37,9 @@ static const std::map<uint32_t, std::string> kBlockTypeName = {
     {kNameResolution, "Name Resolution Block"},
     {kInterfaceStatistics, "Interface Statistics Block"},
     {kEnhancedPacket, "Enhanced Packet Block"},
+    {kDecryptionSecrets, "Decryption Secrets Block"},
+    {kCustomCopiable, "Custom Block(Copiable)"},
+    {kCustom, "Custom Block"},
     {kSectionHeader, "Section Header Block"},
 };
 

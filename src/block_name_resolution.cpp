@@ -54,6 +54,8 @@ std::string BlockNameResolution::Output() {
       kRecordTypeName = {
           {kIpv4Record, {"IPv4 Record", &Option::OutputStringData}},
           {kIpv6Record, {"IPv6 Record", &Option::OutputStringData}},
+          {kEui48Record, {"EUI48 Record", nullptr}},
+          {kEui64Record, {"EUI64 Record", nullptr}},
       };
 
   std::ostringstream oss;

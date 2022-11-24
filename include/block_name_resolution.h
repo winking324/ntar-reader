@@ -41,6 +41,8 @@ enum RecordType {
   kEndOfRecord = 0,
   kIpv4Record  = 1,
   kIpv6Record  = 2,
+  kEui48Record = 3,
+  kEui64Record = 4,
 };
 
 class Record : public Option {

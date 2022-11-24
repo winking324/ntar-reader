@@ -44,6 +44,9 @@ class BlockEnhancedPacket : public Block {
     kFlags     = 2,
     kHash      = 3,
     kDropCount = 4,
+    kPacketId  = 5,
+    kQueue     = 6,
+    kVerdict   = 7,
   };
 
  public:

@@ -63,6 +63,9 @@ std::string BlockInterfaceDescription::Output() {
           {kFrameCheckSequenceLength,
            {"Frame Check Sequence Length", &Option::OutputUint8Data}},
           {kTsOffset, {"Timestamp Offset", &Option::OutputUint64Data}},
+          {kHardware, {"Hardware", &Option::OutputStringData}},
+          {kTxSpeed, {"TX Speed", &Option::OutputUint64Data}},
+          {kRxSpeed, {"RX Speed", &Option::OutputUint64Data}},
       };
 
   std::ostringstream oss;

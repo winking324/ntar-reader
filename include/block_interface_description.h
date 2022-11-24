@@ -43,6 +43,9 @@ class BlockInterfaceDescription : public Block {
     kOs                       = 12,
     kFrameCheckSequenceLength = 13,
     kTsOffset                 = 14,
+    kHardware                 = 15,
+    kTxSpeed                  = 16,
+    kRxSpeed                  = 17,
   };
 
  public:

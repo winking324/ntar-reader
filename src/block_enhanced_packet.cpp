@@ -70,6 +70,9 @@ std::string BlockEnhancedPacket::Output() {
           {kFlags, {"Flags", &Option::OutputUint32Data}},
           {kHash, {"Hash", nullptr}},
           {kDropCount, {"DropCount", &Option::OutputUint64Data}},
+          {kPacketId, {"Packet ID", &Option::OutputUint64Data}},
+          {kQueue, {"Queue", &Option::OutputUint32Data}},
+          {kVerdict, {"Verdict", &Option::OutputHexData}},
       };
 
   std::ostringstream oss;

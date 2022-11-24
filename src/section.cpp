@@ -7,6 +7,8 @@
 #include <map>
 #include <sstream>
 
+#include "block_custom.h"
+#include "block_decryption_secrets.h"
 #include "block_enhanced_packet.h"
 #include "block_interface_description.h"
 #include "block_interface_statistics.h"
@@ -21,6 +23,7 @@ namespace ntar {
 
 size_t Section::Read(std::istream *is) {
   if (!GlobalNtarMeta::Instance()->Init(is)) {
+    printf("Error: NTAR meta info init failed.\n");
     return 0;
   }
 
@@ -103,6 +106,10 @@ std::unique_ptr<Block> Section::CreateBlock(uint32_t type, uint32_t length) {
        BlockCreator<BlockInterfaceStatistics>::New},
       {BlockType::kEnhancedPacket, BlockCreator<BlockEnhancedPacket>::New},
       {BlockType::kSectionHeader, BlockCreator<BlockSectionHeader>::New},
+      {BlockType::kDecryptionSecrets,
+       BlockCreator<BlockDecryptionSecrets>::New},
+      {BlockType::kCustom, BlockCreator<BlockCustom>::New},
+      {BlockType::kCustomCopiable, BlockCreator<BlockCustomCopiable>::New},
   };
 
   auto it = kCreator.find(type);

@@ -6,6 +6,8 @@ set(CMAKE_CXX_STANDARD 11)
 
 set(TARGET_SOURCES
         src/block.cpp
+        src/block_custom.cpp
+        src/block_decryption_secrets.cpp
         src/block_enhanced_packet.cpp
         src/block_interface_description.cpp
         src/block_interface_statistics.cpp
@@ -20,6 +22,8 @@ set(TARGET_SOURCES
 
 set(TARGET_PUBLIC_HEADERS
         include/block.h
+        include/block_custom.h
+        include/block_decryption_secrets.h
         include/block_enhanced_packet.h
         include/block_interface_description.h
         include/block_interface_statistics.h
