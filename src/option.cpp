@@ -57,7 +57,8 @@ size_t Option::Read(const uint8_t *data) {
 }
 
 std::string Option::OutputStringData() {
-  return reinterpret_cast<const char *>(data_.data());
+  return std::string{reinterpret_cast<const char *>(data_.data()),
+                     data_.size()};
 }
 
 std::string Option::OutputUint8Data() {
