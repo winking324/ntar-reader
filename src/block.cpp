@@ -4,6 +4,7 @@
 
 #include "block.h"  // NOLINT(build/include_subdir)
 
+#include <cassert>
 #include <sstream>
 
 namespace ntar {

@@ -4,6 +4,7 @@
 
 #include "block_custom.h"  // NOLINT(build/include_subdir)
 
+#include <cassert>
 #include <sstream>
 
 #include "ntar_meta.h"  // NOLINT(build/include_subdir)

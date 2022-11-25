@@ -40,6 +40,7 @@ set(TARGET_PUBLIC_HEADERS
 
 set(TEST_SOURCES
         test/main.cpp
+        test/pcap_reader.h
         test/pcap_reader.cpp
         )
 
