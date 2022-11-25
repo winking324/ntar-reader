@@ -17,7 +17,7 @@ class NtarMeta : private NonCopyOrMovable {
 
   void Reset();
 
-  bool IsAlignedTo32Bits() const { return is_aligned_32bits_; }
+  bool IsAlignedTo32Bits() const { return aligned_32bits_; }
 
   bool IsBigEndian() const { return endianness_ == Endianness::kBigEndian; }
 
@@ -40,9 +40,12 @@ class NtarMeta : private NonCopyOrMovable {
 
   bool AnalyzeBlockLength(std::istream *is);
 
+  bool ReAnalyzeEndianness(std::istream *is);
+
  private:
   bool initialized_       = false;
-  bool is_aligned_32bits_ = true;
+  bool aligned_32bits_    = true;
+  bool multi_endianness_  = false;
   uint32_t stream_length_ = 0;
   uint32_t block_length_  = 0;
   Endianness endianness_  = Endianness::kUnknown;

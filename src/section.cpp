@@ -22,6 +22,8 @@
 namespace ntar {
 
 size_t Section::Read(std::istream *is) {
+  if (is->eof()) return 0;
+
   if (!GlobalNtarMeta::Instance()->Init(is)) {
     printf("Error: NTAR meta info init failed.\n");
     return 0;
