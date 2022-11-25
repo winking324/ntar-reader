@@ -64,15 +64,12 @@ class BlockPacket : public Block {
 
   uint32_t PacketLength() const { return packet_length_; }
 
-  const std::vector<uint8_t> &Data() const { return data_; }
-
  private:
   uint16_t id_              = 0;
   uint16_t drop_count_      = 0;
   uint64_t ts_              = 0;
   uint32_t captured_length_ = 0;
   uint32_t packet_length_   = 0;
-  std::vector<uint8_t> data_;
 };
 
 }  // namespace ntar

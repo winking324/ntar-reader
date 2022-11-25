@@ -44,7 +44,6 @@ class BlockCustom : public Block {
 
  protected:
   uint32_t private_enterprise_no_;
-  std::vector<uint8_t> data_;
 };
 
 class BlockCustomCopiable : public BlockCustom {

@@ -39,11 +39,8 @@ class BlockSimplePacket : public Block {
 
   uint32_t PacketLength() const { return packet_length_; }
 
-  const std::vector<uint8_t> &Data() const { return data_; }
-
  private:
   uint32_t packet_length_ = 0;
-  std::vector<uint8_t> data_;
 };
 
 }  // namespace ntar

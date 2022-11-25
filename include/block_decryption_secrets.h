@@ -57,7 +57,6 @@ class BlockDecryptionSecrets : public Block {
  private:
   uint32_t secrets_type_;
   uint32_t secrets_length_;
-  std::vector<uint8_t> data_;
 };
 
 }  // namespace ntar

@@ -86,14 +86,13 @@ size_t Section::ReadBlock(std::istream *is) {
   }
 
   std::unique_ptr<Block> block = CreateBlock(type, length);
-  if (block) {
-    size_t read_size = block->Read(data.data());
-    if (read_size == 0) {
-      printf("Error: block type %u, length %u read failed.\n", type, length);
-      return 0;
-    }
-    blocks_.push_back(std::move(block));
+
+  size_t read_size = block->Read(data.data());
+  if (read_size == 0) {
+    printf("Error: block type %u, length %u read failed.\n", type, length);
+    return 0;
   }
+  blocks_.push_back(std::move(block));
   return length;
 }
 
@@ -116,7 +115,7 @@ std::unique_ptr<Block> Section::CreateBlock(uint32_t type, uint32_t length) {
 
   auto it = kCreator.find(type);
   if (it == kCreator.end()) {
-    return nullptr;
+    return std::unique_ptr<Block>(new Block(type, length));
   }
 
   return std::unique_ptr<Block>(it->second(length));

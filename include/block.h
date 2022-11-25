@@ -53,20 +53,22 @@ class Block : private NonCopyOrMovable {
   };
 
  public:
-  explicit Block(BlockType type, uint32_t length)
+  explicit Block(uint32_t type, uint32_t length)
       : type_(type), length_(length) {}
 
   virtual ~Block() = default;
 
-  virtual size_t Read(const uint8_t *data) = 0;
+  virtual size_t Read(const uint8_t *data);
 
-  virtual std::string Output() = 0;
+  virtual std::string Output();
 
   uint32_t Type() const { return type_; }
 
   uint32_t Length() const { return length_; }
 
   const OptionBuffer &Options() const { return options_; }
+
+  const std::vector<uint8_t> &Data() const { return data_; }
 
  protected:
   size_t ReadOptions(const uint8_t *data);
@@ -75,6 +77,7 @@ class Block : private NonCopyOrMovable {
   uint32_t type_   = 0;
   uint32_t length_ = 0;
   OptionBuffer options_;
+  std::vector<uint8_t> data_;
 };
 
 template <typename T>
