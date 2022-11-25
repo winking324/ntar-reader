@@ -59,7 +59,11 @@ size_t BlockEnhancedPacket::Read(const uint8_t *data) {
   }
 
   read_size += sizeof(uint32_t);
-  assert(GlobalNtarMeta::Instance()->PaddedLength(Length()) == read_size + 8);
+  if (GlobalNtarMeta::Instance()->PaddedLength(Length()) != read_size + 8) {
+    printf("Warn: Packet[%u] not totally read[%u].\n", Length(),
+           static_cast<uint32_t>(read_size + 8));
+    read_size = GlobalNtarMeta::Instance()->PaddedLength(Length()) - 8;
+  }
   return read_size;
 }
 

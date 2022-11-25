@@ -10,6 +10,31 @@
 
 namespace ntar {
 
+std::string ToHexString(uint8_t *d, size_t s) {
+  static const char kHex[] = "0123456789ABCDEF";
+  std::string o;
+  o.reserve(s * 2);
+  for (size_t i = 0; i < s; ++i) {
+    o.push_back(kHex[d[i] >> 4]);
+    o.push_back(kHex[d[i] & 0x0F]);
+  }
+  return o;
+}
+
+std::string ToIpv4String(uint8_t *d) {
+  auto f = [](uint8_t d) { return std::to_string(static_cast<uint32_t>(d)); };
+  return f(d[0]) + "." + f(d[1]) + "." + f(d[2]) + "." + f(d[3]);
+}
+
+std::string ToIpv6String(uint8_t *d) {
+  std::string o;
+  for (size_t i = 0; i < 16; i += 2) {
+    o += ToHexString(d + i, 2) + ":";
+  }
+  o.pop_back();
+  return o;
+}
+
 size_t Option::Read(const uint8_t *data) {
   size_t read_size = 0;
   if (GlobalNtarMeta::Instance()->IsBigEndian()) {
@@ -80,46 +105,38 @@ std::string Option::OutputUint64Data() {
 
 std::string Option::OutputIpv4Data() {
   assert(data_.size() == 4 || data_.size() == 8);
-  auto f = [](uint8_t d) { return std::to_string(static_cast<uint32_t>(d)); };
-  std::string o =
-      f(data_[0]) + "." + f(data_[1]) + "." + f(data_[2]) + "." + f(data_[3]);
+  std::string o = ToIpv4String(data_.data());
   if (data_.size() > 4) {
-    o += "/" + f(data_[4]) + "." + f(data_[5]) + "." + f(data_[6]) + "." +
-         f(data_[7]);
+    o += "/" + ToIpv4String(&data_[4]);
   }
   return o;
 }
 
 std::string Option::OutputIpv6Data() {
   assert(data_.size() == 16 || data_.size() == 17);
-  auto f = [](uint8_t d) {
-    static const char kHex[] = "0123456789ABCDEF";
-    std::string o;
-    o.push_back(kHex[d >> 4]);
-    o.push_back(kHex[d & 0x0F]);
-    return o;
-  };
-
-  std::string o = f(data_[0]) + f(data_[1]) + ":" + f(data_[2]) + f(data_[3]) +
-                  ":" + f(data_[4]) + f(data_[5]) + ":" + f(data_[6]) +
-                  f(data_[7]) + ":" + f(data_[8]) + f(data_[9]) + ":" +
-                  f(data_[10]) + f(data_[11]) + ":" + f(data_[12]) +
-                  f(data_[13]) + ":" + f(data_[14]) + f(data_[15]);
+  std::string o = ToIpv6String(data_.data());
   if (data_.size() > 16) {
-    o += "/" + f(data_[16]);
+    o += "/" + ToHexString(&data_[16], 1);
   }
   return o;
 }
 
-std::string Option::OutputHexData() {
-  static const char kHex[] = "0123456789ABCDEF";
-  std::string o;
-  o.reserve(data_.size() * 2);
-  for (auto d : data_) {
-    o.push_back(kHex[d >> 4]);
-    o.push_back(kHex[d & 0x0F]);
-  }
+std::string Option::OutputIpv4RecordData() {
+  assert(data_.size() > 4);
+  std::string o = ToIpv4String(data_.data());
+  o += " " + std::string(reinterpret_cast<char *>(&data_[4]));
   return o;
+}
+
+std::string Option::OutputIpv6RecordData() {
+  assert(data_.size() > 16);
+  std::string o = ToIpv6String(data_.data());
+  o += " " + std::string(reinterpret_cast<char *>(&data_[16]));
+  return o;
+}
+
+std::string Option::OutputHexData() {
+  return ToHexString(data_.data(), data_.size());
 }
 
 }  // namespace ntar

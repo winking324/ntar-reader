@@ -23,7 +23,11 @@ size_t BlockNameResolution::Read(const uint8_t *data) {
   }
 
   read_size += sizeof(uint32_t);
-  assert(GlobalNtarMeta::Instance()->PaddedLength(Length()) == read_size + 8);
+  if (GlobalNtarMeta::Instance()->PaddedLength(Length()) != read_size + 8) {
+    printf("Warn: Packet[%u] not totally read[%u].\n", Length(),
+           static_cast<uint32_t>(read_size + 8));
+    read_size = GlobalNtarMeta::Instance()->PaddedLength(Length()) - 8;
+  }
   return read_size;
 }
 
@@ -52,8 +56,8 @@ std::string BlockNameResolution::Output() {
 
   static const std::map<uint16_t, std::pair<std::string, kOutputPtr>>
       kRecordTypeName = {
-          {kIpv4Record, {"IPv4 Record", &Option::OutputStringData}},
-          {kIpv6Record, {"IPv6 Record", &Option::OutputStringData}},
+          {kIpv4Record, {"IPv4 Record", &Option::OutputIpv4RecordData}},
+          {kIpv6Record, {"IPv6 Record", &Option::OutputIpv6RecordData}},
           {kEui48Record, {"EUI48 Record", nullptr}},
           {kEui64Record, {"EUI64 Record", nullptr}},
       };

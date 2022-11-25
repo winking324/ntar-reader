@@ -53,6 +53,10 @@ class Option : private NonCopyOrMovable {
 
   std::string OutputIpv6Data();
 
+  std::string OutputIpv4RecordData();
+
+  std::string OutputIpv6RecordData();
+
   std::string OutputHexData();
 
  protected:
