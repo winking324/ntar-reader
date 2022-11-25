@@ -2,12 +2,12 @@
 // Refer: https://www.winpcap.org/ntar/draft/PCAP-DumpFileFormat.html
 //
 
-#include "block_section_header.h"
+#include "block_section_header.h"  // NOLINT(build/include_subdir)
 
 #include <sstream>
 
-#include "byte_io.h"
-#include "ntar_meta.h"
+#include "byte_io.h"    // NOLINT(build/include_subdir)
+#include "ntar_meta.h"  // NOLINT(build/include_subdir)
 
 namespace ntar {
 

@@ -3,10 +3,9 @@
 //
 
 #include <iostream>
-#include <string>
 #include <vector>
 
-#include "pcap_reader.h"
+#include "pcap_reader.h"  // NOLINT(build/include_subdir)
 
 int main(int argc, char **argv) {
   if (argc <= 1) {

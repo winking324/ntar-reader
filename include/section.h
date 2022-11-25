@@ -7,9 +7,11 @@
 #include <istream>
 #include <list>
 #include <memory>
+#include <string>
+#include <vector>
 
-#include "block.h"
-#include "option.h"
+#include "block.h"   // NOLINT(build/include_subdir)
+#include "option.h"  // NOLINT(build/include_subdir)
 
 namespace ntar {
 

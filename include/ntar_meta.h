@@ -5,9 +5,10 @@
 #pragma once  // NOLINT(build/header_guard)
 
 #include <istream>
+#include <string>
 
-#include "byte_io.h"
-#include "memory.h"
+#include "byte_io.h"  // NOLINT(build/include_subdir)
+#include "memory.h"   // NOLINT(build/include_subdir)
 
 namespace ntar {
 

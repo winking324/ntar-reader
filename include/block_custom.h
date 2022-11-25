@@ -4,7 +4,9 @@
 
 #pragma once  // NOLINT(build/header_guard)
 
-#include "block.h"
+#include <string>
+
+#include "block.h"  // NOLINT(build/include_subdir)
 
 //                            1                   2                   3
 //       0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -48,7 +50,7 @@ class BlockCustom : public Block {
 
 class BlockCustomCopiable : public BlockCustom {
  public:
-  BlockCustomCopiable(uint32_t length)
+  explicit BlockCustomCopiable(uint32_t length)
       : BlockCustom(BlockType::kCustomCopiable, length) {}
 
   std::string Output() override;

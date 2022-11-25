@@ -45,14 +45,14 @@ enum Endianness {
 
 static Endianness SystemEndianness() {
   union {
-    short s;
-    char c[sizeof(short)];
+    uint16_t s;
+    uint8_t c[sizeof(uint16_t)];
   } un;
   un.s = 0x0102;
 
-  static_assert(sizeof(short) == 2, "Unsupported system!");
+  static_assert(sizeof(uint16_t) == 2, "Unsupported system!");
 
-  if (un.c[0] == 1 && un.c[1] == 2) {
+  if (un.c[0] == 0x01 && un.c[1] == 0x02) {
     return Endianness::kBigEndian;
   } else {
     return Endianness::kLittleEndian;

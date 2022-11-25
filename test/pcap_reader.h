@@ -4,19 +4,15 @@
 
 #pragma once  // NOLINT(build/header_guard)
 
-#include <memory>
-#include <vector>
+#include <string>
 
-#include "block.h"
+#include "block.h"  // NOLINT(build/include_subdir)
 
 namespace ntar {
 
 class PcapReader {
  public:
   bool Read(const std::string &pcap_file);
-
- private:
-
 };
 
 }  // namespace ntar

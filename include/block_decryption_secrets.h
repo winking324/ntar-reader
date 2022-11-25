@@ -4,9 +4,10 @@
 
 #pragma once  // NOLINT(build/header_guard)
 
+#include <string>
 #include <vector>
 
-#include "block.h"
+#include "block.h"  // NOLINT(build/include_subdir)
 
 //                            1                   2                   3
 //       0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1

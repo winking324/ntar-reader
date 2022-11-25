@@ -2,11 +2,11 @@
 // Refer: https://www.winpcap.org/ntar/draft/PCAP-DumpFileFormat.html
 //
 
-#include "option.h"
+#include "option.h"  // NOLINT(build/include_subdir)
 
 #include <cassert>
 
-#include "ntar_meta.h"
+#include "ntar_meta.h"  // NOLINT(build/include_subdir)
 
 namespace ntar {
 

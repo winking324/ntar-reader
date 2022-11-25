@@ -2,7 +2,7 @@
 // Refer: https://www.winpcap.org/ntar/draft/PCAP-DumpFileFormat.html
 //
 
-#include "block.h"
+#include "block.h"  // NOLINT(build/include_subdir)
 
 #include <sstream>
 

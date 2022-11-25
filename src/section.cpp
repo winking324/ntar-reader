@@ -2,22 +2,22 @@
 // Refer: https://www.winpcap.org/ntar/draft/PCAP-DumpFileFormat.html
 //
 
-#include "section.h"
+#include "section.h"  // NOLINT(build/include_subdir)
 
 #include <map>
 #include <sstream>
 
-#include "block_custom.h"
-#include "block_decryption_secrets.h"
-#include "block_enhanced_packet.h"
-#include "block_interface_description.h"
-#include "block_interface_statistics.h"
-#include "block_name_resolution.h"
-#include "block_packet.h"
-#include "block_section_header.h"
-#include "block_simple_packet.h"
-#include "byte_io.h"
-#include "ntar_meta.h"
+#include "block_custom.h"                 // NOLINT(build/include_subdir)
+#include "block_decryption_secrets.h"     // NOLINT(build/include_subdir)
+#include "block_enhanced_packet.h"        // NOLINT(build/include_subdir)
+#include "block_interface_description.h"  // NOLINT(build/include_subdir)
+#include "block_interface_statistics.h"   // NOLINT(build/include_subdir)
+#include "block_name_resolution.h"        // NOLINT(build/include_subdir)
+#include "block_packet.h"                 // NOLINT(build/include_subdir)
+#include "block_section_header.h"         // NOLINT(build/include_subdir)
+#include "block_simple_packet.h"          // NOLINT(build/include_subdir)
+#include "byte_io.h"                      // NOLINT(build/include_subdir)
+#include "ntar_meta.h"                    // NOLINT(build/include_subdir)
 
 namespace ntar {
 
@@ -97,7 +97,7 @@ size_t Section::ReadBlock(std::istream *is) {
 }
 
 std::unique_ptr<Block> Section::CreateBlock(uint32_t type, uint32_t length) {
-  const static std::map<uint32_t, BlockCtreatorPtr> kCreator = {
+  static const std::map<uint32_t, BlockCtreatorPtr> kCreator = {
       {BlockType::kInterfaceDescription,
        BlockCreator<BlockInterfaceDescription>::New},
       {BlockType::kPacket, BlockCreator<BlockPacket>::New},

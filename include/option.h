@@ -8,8 +8,8 @@
 #include <string>
 #include <vector>
 
-#include "byte_io.h"
-#include "memory.h"
+#include "byte_io.h"  // NOLINT(build/include_subdir)
+#include "memory.h"   // NOLINT(build/include_subdir)
 
 //  0                   1                   2                   3
 //  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1

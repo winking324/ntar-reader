@@ -11,9 +11,9 @@
 #include <string>
 #include <vector>
 
-#include "byte_io.h"
-#include "memory.h"
-#include "option.h"
+#include "byte_io.h"  // NOLINT(build/include_subdir)
+#include "memory.h"   // NOLINT(build/include_subdir)
+#include "option.h"   // NOLINT(build/include_subdir)
 
 namespace ntar {
 
